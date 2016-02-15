@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.krishagni.catissueplus.core.administrative.domain.Container;
 import com.krishagni.catissueplus.core.administrative.events.ContainerTypeQueryCriteria;
 import com.krishagni.catissueplus.core.administrative.events.StorageContainerTypeDetail;
 import com.krishagni.catissueplus.core.administrative.services.StorageContainerTypeService;
@@ -62,6 +63,16 @@ public class StorageContainerTypeController {
 		
 		RequestEvent<StorageContainerTypeDetail> req = new RequestEvent<StorageContainerTypeDetail>(detail);
 		ResponseEvent<StorageContainerTypeDetail> resp = storageContainerTypeSvc.updateStorageContainerType(req);
+		resp.throwErrorIfUnsuccessful();
+		return resp.getPayload();
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/create-hierarchy")
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public Container createHierarchy(@RequestBody Container container) {
+		RequestEvent<Container> req = new RequestEvent<Container>(container);
+		ResponseEvent<Container> resp = storageContainerTypeSvc.createContainerHierarchy(req);
 		resp.throwErrorIfUnsuccessful();
 		return resp.getPayload();
 	}
