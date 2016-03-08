@@ -39,6 +39,7 @@
             <div class="col os-col-15">{{dpr.specimenType}}</div>
             <div class="col os-col-20">{{dpr.anatomicSite}}</div>
             <div class="col os-col-15">{{dpr.pathologyStatus}}</div>
+            <!-- {{dpr.pathologyStatus | osArrayJoin | osNoValue}}-->
             <div class="col os-col-10">{{dpr.specimenCount * dpr.quantity}}</div>
             <div class="col os-col-10">{{dpr.distributedQty}}</div>
             <div class="col os-col-25 os-ellipsis" title="{{dpr.comments}}">{{dpr.comments}}</div>

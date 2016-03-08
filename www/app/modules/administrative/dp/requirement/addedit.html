@@ -23,8 +23,10 @@
     <div class="form-group">
       <label class="col-xs-3 control-label" translate="dp.distribution_order.pathology_status">Pathology Status</label>
       <div class="col-xs-6">
+        <!-- rename every variable to pathologyStatuses -->
         <os-select name="pathology" ng-model="dpr.pathologyStatus" list="pathologyStatuses"
           required placeholder="{{'dp.distribution_order.pathology_status' | translate}}">
+          <!-- add multiple to multiselect field-->
         </os-select>
         <div os-field-error field="dprForm.pathology"></div>
       </div>

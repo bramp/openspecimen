@@ -13,6 +13,8 @@ public class DpRequirement extends BaseEntity {
 	private String anatomicSite;
 	
 	private String pathologyStatus;
+
+//	make pathology status as Set<String> pathologyStatuses;
 	
 	private Long specimenCount;
 	
@@ -91,6 +93,7 @@ public class DpRequirement extends BaseEntity {
 		setSpecimenType(dpr.getSpecimenType());
 		setAnatomicSite(dpr.getAnatomicSite());
 		setPathologyStatus(dpr.getPathologyStatus());
+//		update the set
 		setSpecimenCount(dpr.getSpecimenCount());
 		setQuantity(dpr.getQuantity());
 		setComments(dpr.getComments());

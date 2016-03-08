@@ -17,6 +17,7 @@ public class DpRequirementDetail {
 	private String anatomicSite;
 	
 	private String pathologyStatus;
+//	set<string> pathologyStatuses;
 	
 	private Long specimenCount;
 	
@@ -116,6 +117,7 @@ public class DpRequirementDetail {
 		detail.setSpecimenType(dpr.getSpecimenType());
 		detail.setAnatomicSite(dpr.getAnatomicSite());
 		detail.setPathologyStatus(dpr.getPathologyStatus());
+//		set the pathology statuses
 		detail.setSpecimenCount(dpr.getSpecimenCount());
 		detail.setQuantity(dpr.getQuantity());
 		detail.setComments(dpr.getComments());

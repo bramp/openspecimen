@@ -111,6 +111,7 @@ public class DpRequirementFactoryImpl implements DpRequirementFactory {
 	
 	private void setPathologyStatus(DpRequirementDetail detail, DpRequirement dpr,
 			OpenSpecimenException ose) {
+//		set the pathology statuses check the validation for every value.
 		String pathologyStatus = detail.getPathologyStatus();
 		if (StringUtils.isBlank(pathologyStatus)) {
 			ose.addError(DpRequirementErrorCode.PATHOLOGY_STATUS_REQUIRED);
