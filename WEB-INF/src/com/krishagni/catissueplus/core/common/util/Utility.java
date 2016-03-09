@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -133,6 +135,18 @@ public class Utility {
 				}				
 			}
 		}		
+	}
+	
+	public static void writeHeadersToOutputStream(OutputStream out, Map<String, String> headers) {
+		PrintWriter writer = new PrintWriter(out);
+		
+		String separator = getFieldSeparator() + " ";
+		for (Map.Entry<String, String> entry : headers.entrySet()) {
+			writer.println(entry.getKey() + separator + entry.getValue());
+		}
+		
+		writer.println();
+		writer.flush();
 	}
 	
 	public static long getTimezoneOffset() {
