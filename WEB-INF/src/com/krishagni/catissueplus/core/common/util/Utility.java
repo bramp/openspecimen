@@ -142,7 +142,7 @@ public class Utility {
 		
 		String separator = getFieldSeparator() + " ";
 		for (Map.Entry<String, String> entry : headers.entrySet()) {
-			writer.println(entry.getKey() + separator + entry.getValue());
+			writer.println(entry.getKey() + separator + (entry.getValue() == null ? "" : entry.getValue()));
 		}
 		
 		writer.println();
