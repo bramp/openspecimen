@@ -302,4 +302,23 @@
     </sql>
   </changeSet>
 
+  <changeSet author="ckhilosiya" id="DP requirement pathology statuses">
+    <createTable tableName="OS_DPR_PATHOLOGY_STATUSES">
+      <column name="DPR_ID" type="${int.type}"></column>
+      <column name="PATHOLOGY_STATUS" type="${text.type}(50)"></column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="ckhilosiya" id="Transfer DP requirement pathology status data">
+    <sql>
+      insert into OS_DPR_PATHOLOGY_STATUSES (DPR_ID, PATHOLOGY_STATUS)
+      select IDENTIFIER, PATHOLOGY_STATUS from OS_DP_REQUIREMENTS
+    </sql>
+  </changeSet>
+
+  <changeSet author="ckhilosiya" id="Delete pathology status as it is moved to dpr pathology statuses table">
+    <dropColumn
+      tableName="OS_DP_REQUIREMENTS"
+      columnName="PATHOLOGY_STATUS"/>
+  </changeSet>
 </databaseChangeLog>

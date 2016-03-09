@@ -445,10 +445,8 @@ public class DistributionProtocolServiceImpl implements DistributionProtocolServ
 		}
 		
 		DistributionProtocol dp = newDpr.getDistributionProtocol();
-		if (dp.hasRequirement(newDpr.getSpecimenType(), newDpr.getAnatomicSite(), newDpr.getPathologyStatus())) {
-			ose.addError(
-				DpRequirementErrorCode.ALREADY_EXISTS, 
-				newDpr.getSpecimenType(), newDpr.getAnatomicSite(), newDpr.getPathologyStatus());
+		if (dp.hasRequirement(newDpr.getSpecimenType(), newDpr.getAnatomicSite(), newDpr.getPathologyStatuses())) {
+			ose.addError(DpRequirementErrorCode.ALREADY_EXISTS);
 		}
 	}
 	

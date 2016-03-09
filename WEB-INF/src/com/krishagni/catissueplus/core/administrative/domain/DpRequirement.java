@@ -1,6 +1,10 @@
 package com.krishagni.catissueplus.core.administrative.domain;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.krishagni.catissueplus.core.biospecimen.domain.BaseEntity;
 import com.krishagni.catissueplus.core.common.util.Status;
@@ -12,10 +16,8 @@ public class DpRequirement extends BaseEntity {
 	
 	private String anatomicSite;
 	
-	private String pathologyStatus;
+	private Set<String> pathologyStatuses = new HashSet<String>();
 
-//	make pathology status as Set<String> pathologyStatuses;
-	
 	private Long specimenCount;
 	
 	private BigDecimal quantity;
@@ -48,12 +50,17 @@ public class DpRequirement extends BaseEntity {
 		this.anatomicSite = anatomicSite;
 	}
 	
-	public String getPathologyStatus() {
-		return pathologyStatus;
+	public Set<String> getPathologyStatuses() {
+		return pathologyStatuses;
 	}
 	
-	public void setPathologyStatus(String pathologyStatus) {
-		this.pathologyStatus = pathologyStatus;
+	public void setPathologyStatuses(Set<String> pathologyStatuses) {
+		this.pathologyStatuses = pathologyStatuses;
+	}
+
+	public void updatePathologyStatuses(Set<String> pathologyStatuses) {
+		getPathologyStatuses().addAll(pathologyStatuses);
+		getPathologyStatuses().retainAll(pathologyStatuses);
 	}
 	
 	public Long getSpecimenCount() {
@@ -92,8 +99,7 @@ public class DpRequirement extends BaseEntity {
 		setDistributionProtocol(dpr.getDistributionProtocol());
 		setSpecimenType(dpr.getSpecimenType());
 		setAnatomicSite(dpr.getAnatomicSite());
-		setPathologyStatus(dpr.getPathologyStatus());
-//		update the set
+		updatePathologyStatuses(dpr.getPathologyStatuses());
 		setSpecimenCount(dpr.getSpecimenCount());
 		setQuantity(dpr.getQuantity());
 		setComments(dpr.getComments());
@@ -101,13 +107,13 @@ public class DpRequirement extends BaseEntity {
 	}
 	
 	public boolean equalsSpecimenGroup(DpRequirement dpr) {
-		return equalsSpecimenGroup(dpr.getSpecimenType(), dpr.getAnatomicSite(), dpr.getPathologyStatus());
+		return equalsSpecimenGroup(dpr.getSpecimenType(), dpr.getAnatomicSite(), dpr.getPathologyStatuses());
 	}
 
-	public boolean equalsSpecimenGroup(String specimenType, String anatomicSite, String pathologyStatus) {
+	public boolean equalsSpecimenGroup(String specimenType, String anatomicSite, Set<String> pathologyStatuses) {
 		return getSpecimenType().equals(specimenType) &&
 				getAnatomicSite().equals(anatomicSite) &&
-				getPathologyStatus().equals(pathologyStatus);
+				CollectionUtils.isEqualCollection(getPathologyStatuses(), pathologyStatuses);
 	}
 
 	public void delete() {

@@ -6,7 +6,9 @@ import static com.krishagni.catissueplus.core.common.PvAttributes.PATH_STATUS;
 import static com.krishagni.catissueplus.core.common.service.PvValidator.isValid;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.krishagni.catissueplus.core.administrative.domain.DistributionProtocol;
@@ -41,7 +43,7 @@ public class DpRequirementFactoryImpl implements DpRequirementFactory {
 		setDistributionProtocol(detail, dpr, ose);
 		setSpecimenType(detail, dpr, ose);
 		setAnatomicSite(detail, dpr, ose);
-		setPathologyStatus(detail, dpr, ose);
+		setPathologyStatuses(detail, dpr, ose);
 		setSpecimenCount(detail, dpr, ose);
 		setQuantity(detail, dpr, ose);
 		setComments(detail, dpr, ose);
@@ -109,21 +111,21 @@ public class DpRequirementFactoryImpl implements DpRequirementFactory {
 		dpr.setAnatomicSite(anatomicSite);
 	}
 	
-	private void setPathologyStatus(DpRequirementDetail detail, DpRequirement dpr,
+	private void setPathologyStatuses(DpRequirementDetail detail, DpRequirement dpr,
 			OpenSpecimenException ose) {
-//		set the pathology statuses check the validation for every value.
-		String pathologyStatus = detail.getPathologyStatus();
-		if (StringUtils.isBlank(pathologyStatus)) {
-			ose.addError(DpRequirementErrorCode.PATHOLOGY_STATUS_REQUIRED);
+		Set<String> pathologyStatuses = detail.getPathologyStatuses();
+		if (CollectionUtils.isEmpty(pathologyStatuses)) {
 			return;
 		}
-		
-		if (!isValid(PATH_STATUS, pathologyStatus)) {
-			ose.addError(SpecimenErrorCode.INVALID_PATHOLOGY_STATUS);
-			return;
+
+		for (String pathology : pathologyStatuses) {
+			if (!isValid(PATH_STATUS, pathology)) {
+				ose.addError(SpecimenErrorCode.INVALID_PATHOLOGY_STATUS);
+				return;
+			}
 		}
-		
-		dpr.setPathologyStatus(pathologyStatus);
+
+		dpr.setPathologyStatuses(pathologyStatuses);
 	}
 	
 	private void setSpecimenCount(DpRequirementDetail detail, DpRequirement dpr,

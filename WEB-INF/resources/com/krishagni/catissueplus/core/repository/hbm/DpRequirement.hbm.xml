@@ -22,14 +22,11 @@
     
     <property name="anatomicSite" column="ANATOMIC_SITE" />
     
-    <property name="pathologyStatus" column="PATHOLOGY_STATUS" />
-    <!--
-    <set name="pathologyStatuses" table="os_dpr_pathology_statuses" cascade="all-delete-orphan">
-      <key column="dpr_id" />
-      <element column="pathology_status" type="string"/>
+    <set name="pathologyStatuses" table="OS_DPR_PATHOLOGY_STATUSES" cascade="all-delete-orphan">
+      <key column="DPR_ID"/>
+      <element column="PATHOLOGY_STATUS" type="string"/>
     </set>
-    -->
-    
+
     <property name="specimenCount" column="SPECIMEN_COUNT" />
     
     <property name="quantity" column="QUANTITY" />
@@ -41,8 +38,6 @@
     <filter name="activeEntity" />
     
     <query name="getDistributionQty">
-
-      <!-- update the query to consider list of pathology statuses -->
       select
         dpr.id, sum(item.quantity)
       from
@@ -56,7 +51,7 @@
         do.status = 'EXECUTED' and
         dpr.specimenType = spec.specimenType and
         dpr.anatomicSite = spec.tissueSite and
-        dpr.pathologyStatus = spec.pathologicalStatus
+        (dpr.pathologyStatuses.size = 0 or spec.pathologicalStatus in elements(dpr.pathologyStatuses))
       group by
         dpr.id
     </query>
