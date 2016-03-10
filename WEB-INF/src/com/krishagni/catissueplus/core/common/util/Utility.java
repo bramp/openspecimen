@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -27,9 +26,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
-import au.com.bytecode.opencsv.CSVWriter;
-
 import com.krishagni.catissueplus.core.common.PdfUtil;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 public class Utility {
 	public static String getDisabledValue(String value, int maxLength) {
@@ -137,16 +136,22 @@ public class Utility {
 		}		
 	}
 	
-	public static void writeHeadersToOutputStream(OutputStream out, Map<String, String> headers) {
-		PrintWriter writer = new PrintWriter(out);
-		
-		String separator = getFieldSeparator() + " ";
-		for (Map.Entry<String, String> entry : headers.entrySet()) {
-			writer.println(entry.getKey() + separator + (entry.getValue() == null ? "" : entry.getValue()));
+	public static void writeKeyValuesToCsv(OutputStream out, Map<String, String> keyValues) {
+		CsvWriter csvWriter= null;
+
+		try {
+			StringWriter strWriter = new StringWriter();
+			csvWriter = CsvFileWriter.createCsvFileWriter(strWriter);
+			for (Map.Entry<String, String> keyValue : keyValues.entrySet()) {
+				csvWriter.writeNext(new String[] {keyValue.getKey(), keyValue.getValue()});
+			}
+			csvWriter.flush();
+			out.write(strWriter.toString().getBytes());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			IOUtils.closeQuietly(csvWriter);
 		}
-		
-		writer.println();
-		writer.flush();
 	}
 	
 	public static long getTimezoneOffset() {

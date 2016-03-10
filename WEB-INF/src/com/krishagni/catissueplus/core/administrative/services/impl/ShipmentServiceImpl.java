@@ -1,7 +1,6 @@
 package com.krishagni.catissueplus.core.administrative.services.impl;
 
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,8 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.krishagni.catissueplus.core.administrative.domain.Institute;
 import com.krishagni.catissueplus.core.administrative.domain.Shipment;
 import com.krishagni.catissueplus.core.administrative.domain.Shipment.Status;
-import com.krishagni.catissueplus.core.administrative.domain.User;
 import com.krishagni.catissueplus.core.administrative.domain.Site;
+import com.krishagni.catissueplus.core.administrative.domain.User;
 import com.krishagni.catissueplus.core.administrative.domain.factory.ShipmentErrorCode;
 import com.krishagni.catissueplus.core.administrative.domain.factory.ShipmentFactory;
 import com.krishagni.catissueplus.core.administrative.domain.factory.SiteErrorCode;
@@ -464,15 +463,15 @@ public class ShipmentServiceImpl implements ShipmentService, ObjectStateParamsRe
 			public void headers(OutputStream out) {
 				@SuppressWarnings("serial")
 				Map<String, String> headers = new HashMap<String, String>() {{
-					put(getMessage("shipment_name"), shipment.getName());
-					put(getMessage("shipment_courier_name"), shipment.getCourierName());
+					put(getMessage("shipment_name"),            shipment.getName());
+					put(getMessage("shipment_courier_name"),    shipment.getCourierName());
 					put(getMessage("shipment_tracking_number"), shipment.getTrackingNumber());
-					put(getMessage("shipment_tracking_url"), shipment.getTrackingUrl());
-					put(getMessage("shipment_sending_site"), shipment.getSendingSite().getName());
-					put(getMessage("shipment_sender"), shipment.getSender().formattedName());
-					put(getMessage("shipment_shipped_date"), Utility.getDateString(shipment.getShippedDate()));
+					put(getMessage("shipment_tracking_url"),    shipment.getTrackingUrl());
+					put(getMessage("shipment_sending_site"),    shipment.getSendingSite().getName());
+					put(getMessage("shipment_sender"),          shipment.getSender().formattedName());
+					put(getMessage("shipment_shipped_date"),    Utility.getDateString(shipment.getShippedDate()));
 					put(getMessage("shipment_sender_comments"), shipment.getSenderComments());
-					put(getMessage("shipment_recv_site"), shipment.getReceivingSite().getName());
+					put(getMessage("shipment_recv_site"),       shipment.getReceivingSite().getName());
 					
 					if (shipment.getReceiver() != null) {
 						put(getMessage("shipment_receiver"), shipment.getReceiver().formattedName());
@@ -483,10 +482,12 @@ public class ShipmentServiceImpl implements ShipmentService, ObjectStateParamsRe
 					}
 					
 					put(getMessage("shipment_receiver_comments"), shipment.getReceiverComments());
-					put(getMessage("shipment_status"), shipment.getStatus().getName());
+					put(getMessage("shipment_status"),            shipment.getStatus().getName());
+
+					put("", ""); // blank line
 				}};
 				
-				Utility.writeHeadersToOutputStream(out, headers);
+				Utility.writeKeyValuesToCsv(out, headers);
 			}
 		});
 	}

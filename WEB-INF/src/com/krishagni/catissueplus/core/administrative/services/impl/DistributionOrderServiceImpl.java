@@ -303,16 +303,18 @@ public class DistributionOrderServiceImpl implements DistributionOrderService, O
 			public void headers(OutputStream out) {
 				@SuppressWarnings("serial")
 				Map<String, String> headers = new HashMap<String, String>() {{
-					put(getMessage("dist_order_name"), order.getName());
-					put(getMessage("dist_dp_title"), order.getDistributionProtocol().getTitle());
+					put(getMessage("dist_order_name"),     order.getName());
+					put(getMessage("dist_dp_title"),       order.getDistributionProtocol().getTitle());
 					put(getMessage("dist_requestor_name"), order.getRequester().formattedName());
 					put(getMessage("dist_requested_date"), Utility.getDateString(order.getExecutionDate()));
 					put(getMessage("dist_receiving_site"), order.getSite().getName());
-					put(getMessage("dist_exported_by"), AuthUtil.getCurrentUser().formattedName());
-					put(getMessage("dist_exported_on"), Utility.getDateString(Calendar.getInstance().getTime()));
+					put(getMessage("dist_exported_by"),    AuthUtil.getCurrentUser().formattedName());
+					put(getMessage("dist_exported_on"),    Utility.getDateString(Calendar.getInstance().getTime()));
+					
+					put("", ""); // blank line
 				}};
 
-				Utility.writeHeadersToOutputStream(out, headers);
+				Utility.writeKeyValuesToCsv(out, headers);
 			}
 		});
 	}
