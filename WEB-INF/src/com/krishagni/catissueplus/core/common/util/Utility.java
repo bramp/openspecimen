@@ -137,10 +137,10 @@ public class Utility {
 	}
 	
 	public static void writeKeyValuesToCsv(OutputStream out, Map<String, String> keyValues) {
+		StringWriter strWriter = new StringWriter();
 		CsvWriter csvWriter= null;
 
 		try {
-			StringWriter strWriter = new StringWriter();
 			csvWriter = CsvFileWriter.createCsvFileWriter(strWriter);
 			for (Map.Entry<String, String> keyValue : keyValues.entrySet()) {
 				csvWriter.writeNext(new String[] {keyValue.getKey(), keyValue.getValue()});
@@ -150,6 +150,7 @@ public class Utility {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
+			IOUtils.closeQuietly(strWriter);
 			IOUtils.closeQuietly(csvWriter);
 		}
 	}

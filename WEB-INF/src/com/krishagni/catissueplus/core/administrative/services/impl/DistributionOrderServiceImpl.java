@@ -310,7 +310,7 @@ public class DistributionOrderServiceImpl implements DistributionOrderService, O
 					put(getMessage("dist_receiving_site"), order.getSite().getName());
 					put(getMessage("dist_exported_by"),    AuthUtil.getCurrentUser().formattedName());
 					put(getMessage("dist_exported_on"),    Utility.getDateString(Calendar.getInstance().getTime()));
-					
+
 					put("", ""); // blank line
 				}};
 
